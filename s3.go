@@ -12,6 +12,9 @@ import (
 	"strings"
 )
 
+// Downloads a File from S3 and returns a Reader pointer.
+// The Reader pointer can then be used by .Read() or .ReadAll()
+// Credentials are expected to be stored in a AWS_ACCESS_KEY and AWS_SECRET_KEY env variable
 func FetchS3(bucket string, filename string, region string) *csv.Reader {
 	sess, _ := session.NewSession(&aws.Config{
 		Credentials: credentials.NewEnvCredentials(),
