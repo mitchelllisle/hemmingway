@@ -76,6 +76,21 @@ func (m *MySQL) GetAllTransactions() []TransactionsTable {
 	return output
 }
 
+// Stub for querying without knowing columns/types/rows
+//func (m *MySQL) Query() {
+//	cols, err := rows.Columns() // Remember to check err afterwards
+//	vals := make([]interface{}, len(cols))
+//	for i, _ := range cols {
+//		vals[i] = new(sql.RawBytes)
+//	}
+//	for rows.Next() {
+//		err = rows.Scan(vals...)
+//		// Now you can check each element of vals for nil-ness,
+//		// and you can use type introspection and type assertions
+//		// to fetch the column into a typed variable.
+//	}
+//}
+
 func (m *MySQL) SaveTransaction(transaction TransactionsTable) {
 	stmt, err := m.connection.Prepare(
 		"INSERT INTO transactions(id, description, amount) VALUES(?, ?, ?)",
