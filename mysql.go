@@ -56,7 +56,6 @@ type TransactionsTable struct {
 // that looks like the data we're querying for, and here we're writing that query
 // then using `Scan()` to transpose the results into a struct for each row and appending
 // to an array of those results.
-// TODO: Figure out a way to be able to pass a query into this function and automatically Scan into a map
 func (m *MySQL) GetAllTransactions() []TransactionsTable {
 	stmt, err := m.connection.Prepare("SELECT * FROM transactions")
 	FailOnError(err, "Prepare Statement Failed:")
@@ -77,18 +76,33 @@ func (m *MySQL) GetAllTransactions() []TransactionsTable {
 }
 
 // Stub for querying without knowing columns/types/rows
-//func (m *MySQL) Query() {
-//	cols, err := rows.Columns() // Remember to check err afterwards
-//	vals := make([]interface{}, len(cols))
+// TODO: Figure out a way to be able to pass a query into this function and automatically Scan into a map
+//func (m *MySQL) Query(query string) {
+//	stmt, err := m.connection.Prepare(query)
+//	FailOnError(err, "Prepare Statement Failed:")
+//
+//	rows, err := stmt.Query()
+//	FailOnError(err, "Query Failed:")
+//
+//	cols, err := rows.Columns()
+//	FailOnError(err, "Fetching columns failed:")
+//
+//	colTypes, err := rows.ColumnTypes()
+//	FailOnError(err, "Fetching columns failed:")
+//
+//	values := make([]interface{}, len(cols))
+//
 //	for i, _ := range cols {
-//		vals[i] = new(sql.RawBytes)
+//		values[i] = new(sql.RawBytes)
 //	}
 //	for rows.Next() {
-//		err = rows.Scan(vals...)
-//		// Now you can check each element of vals for nil-ness,
-//		// and you can use type introspection and type assertions
-//		// to fetch the column into a typed variable.
+//		err = rows.Scan(values...)
+//		for i := range cols {
+//			fmt.Println(colTypes[i].DatabaseTypeName())
+//			fmt.Println(values[i])
+//		}
 //	}
+//
 //}
 
 func (m *MySQL) SaveTransaction(transaction TransactionsTable) {
